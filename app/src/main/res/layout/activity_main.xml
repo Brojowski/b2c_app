@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.example.alex.betweentwocities.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <GridLayout
+            android:id="@+id/building_icons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:columnCount="5"
+            android:rowCount="2"
+            >
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="shop"
+                />
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="factory"
+                />
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="house"
+                />
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="park"
+                />
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="office"
+                />
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="bed_tavern"
+                />
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="music_tavern"
+                />
+
+            <TextView/>
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="drink_tavern"
+                />
+
+            <com.example.alex.betweentwocities.BuildingIcon
+                android:layout_width="wrap_content"
+                custom:buildingType="food_tavern"
+                />
+
+        </GridLayout>
+
+        <Button
+            android:id="@+id/score_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="2dp"
+            android:text="@string/str_score_city"
+            />
+
+        <GridLayout
+            android:id="@+id/city_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:padding="2dp"
+            android:background="@color/gray"
+            android:layout_above="@id/score_btn"
+            android:layout_below="@id/building_icons"
+            android:columnCount="4"
+            android:rowCount="4"
+            >
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+            <com.example.alex.betweentwocities.BuildingTile
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+
+                />
+
+        </GridLayout>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

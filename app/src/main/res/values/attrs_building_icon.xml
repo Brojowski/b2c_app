@@ -1,0 +1,17 @@
+<resources>
+    <declare-styleable name="BuildingIcon">
+        <attr name="buildingType" format="enum">
+            <enum name="blank" value="0"/>
+            <enum name="factory" value="1"/>
+            <enum name="house" value="2" />
+            <enum name="office" value="3" />
+            <enum name="park" value="4" />
+            <enum name="shop" value="5" />
+            <enum name="bed_tavern" value="6" />
+            <enum name="drink_tavern" value="7" />
+            <enum name="food_tavern" value="8" />
+            <enum name="music_tavern" value="9" />
+        </attr>
+        <attr name="singleIconTile" format="boolean" />
+    </declare-styleable>
+</resources>

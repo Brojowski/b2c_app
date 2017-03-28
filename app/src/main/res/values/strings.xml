@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BetweenTwoCities</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="str_score_city">Score City</string>
+    <string name="str_score_filler"><![CDATA[<score>]]></string>
+    <string name="str_score_label">Score:</string>
+</resources>

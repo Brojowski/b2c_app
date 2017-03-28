@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="BuildingTile">
+        <attr name="canAcceptBuilding" format="boolean" />
+        <attr name="canRemoveBuilding" format="boolean" />
+        <attr name="preventTileReplacement" format="boolean" />
+    </declare-styleable>
+</resources>
