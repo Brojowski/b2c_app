@@ -3,5 +3,6 @@
         <attr name="canAcceptBuilding" format="boolean" />
         <attr name="canRemoveBuilding" format="boolean" />
         <attr name="preventTileReplacement" format="boolean" />
+        <attr name="canClearBuilding" format="boolean" />
     </declare-styleable>
 </resources>

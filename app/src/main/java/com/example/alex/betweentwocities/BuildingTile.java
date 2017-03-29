@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,7 +20,7 @@ public class BuildingTile extends AppCompatImageView
 {
     private BuildingType _building;
     private boolean _canAcceptBuilding;
-    private boolean _canRemoveBuilding;
+    private boolean _canMoveBuilding;
     private boolean _preventTileReplacement;
 
     public BuildingTile(Context context)
@@ -44,7 +44,7 @@ public class BuildingTile extends AppCompatImageView
         try
         {
             _canAcceptBuilding = a.getBoolean(R.styleable.BuildingTile_canAcceptBuilding, true);
-            _canRemoveBuilding = a.getBoolean(R.styleable.BuildingTile_canRemoveBuilding, true);
+            _canMoveBuilding = a.getBoolean(R.styleable.BuildingTile_canRemoveBuilding, true);
             _preventTileReplacement = a.getBoolean(R.styleable.BuildingTile_preventTileReplacement, true);
         } finally
         {
@@ -52,7 +52,7 @@ public class BuildingTile extends AppCompatImageView
         }
 
         this.setOnDragListener(new BuildingDragListener());
-        this.setOnTouchListener(new BuildingLongClickClearListener());
+        this.setOnTouchListener(new BuildingRepositionTouchListener());
     }
 
     @Override
@@ -88,6 +88,23 @@ public class BuildingTile extends AppCompatImageView
         return canPlace;
     }
 
+    private void removeOnTransfer(Object localState)
+    {
+        Log.v(BuildingTile.class.toString(), "removeOnTransfer");
+        if (localState instanceof BuildingTile)
+        {
+            BuildingTile tile = (BuildingTile)localState;
+            Log.v(BuildingTile.class.toString(), "Is a building tile.");
+            tile.removeTile();
+        }
+    }
+
+    public void removeTile()
+    {
+        _building = BuildingType.Blank;
+        invalidate();
+    }
+
     /**
      * A class to register when a BuildingIcon is dropped on it
      * and to update the building it represents.
@@ -105,6 +122,7 @@ public class BuildingTile extends AppCompatImageView
                     {
                         _building = BuildingResourceConverter.buildingFromClipData(event.getClipData());
                         invalidate();
+                        removeOnTransfer(event.getLocalState());
                     }
                     else
                     {
@@ -122,11 +140,16 @@ public class BuildingTile extends AppCompatImageView
     /**
      * A class that clears the stored building on a long click.
      */
-    private class BuildingLongClickClearListener implements View.OnTouchListener
+    private class BuildingRepositionTouchListener implements View.OnTouchListener
     {
         @Override
         public boolean onTouch(View view, MotionEvent event)
         {
+            if (!_canMoveBuilding)
+            {
+                return false;
+            }
+
             if (event.getAction() == MotionEvent.ACTION_DOWN
                     && _building != BuildingType.Blank)
             {
@@ -140,14 +163,9 @@ public class BuildingTile extends AppCompatImageView
                 {
                     view.startDrag(data, shadowBuilder, view, 0);
                 }
-                _building = BuildingType.Blank;
-                invalidate();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }
