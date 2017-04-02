@@ -53,17 +53,17 @@
             custom:buildingType="music_tavern"
             />
 
-        <!--<TextView/>-->
+        <TextView/>
 
-        <!--<com.example.alex.betweentwocities.BuildingIcon-->
-        <!--android:layout_width="wrap_content"-->
-        <!--custom:buildingType="drink_tavern"-->
-        <!--/>-->
+        <com.example.alex.betweentwocities.BuildingIcon
+        android:layout_width="wrap_content"
+        custom:buildingType="drink_tavern"
+        />
 
-        <!--<com.example.alex.betweentwocities.BuildingIcon-->
-        <!--android:layout_width="wrap_content"-->
-        <!--custom:buildingType="food_tavern"-->
-        <!--/>-->
+        <com.example.alex.betweentwocities.BuildingIcon
+        android:layout_width="wrap_content"
+        custom:buildingType="food_tavern"
+        />
 
     </GridLayout>
 
@@ -77,115 +77,12 @@
         android:text="@string/str_score_city"
         />
 
-    <GridLayout
-        android:id="@+id/city_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/score_btn"
-        android:layout_below="@id/building_icons"
-        android:layout_margin="8dp"
-        android:background="@color/gray"
-        android:columnCount="4"
-        android:padding="2dp"
-        android:rowCount="4"
-        >
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-        <com.example.alex.betweentwocities.BuildingTile
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-
-            />
-
-    </GridLayout>
+    <include layout="@layout/layout_board"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_above="@id/score_btn"
+             android:layout_below="@id/building_icons"
+             android:layout_centerHorizontal="true"
+        />
 
 </RelativeLayout>
