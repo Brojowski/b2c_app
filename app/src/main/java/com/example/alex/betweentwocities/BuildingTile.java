@@ -13,15 +13,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Displays one building in a representation of a city.
  */
 public class BuildingTile extends AppCompatImageView
 {
+    private int _xGridPos;
+    private int _yGridPos;
     private BuildingType _building;
     private boolean _canAcceptBuilding;
     private boolean _canMoveBuilding;
     private boolean _preventTileReplacement;
+    private IBuildingTileListener _tileUpdateListener;
 
     public BuildingTile(Context context)
     {
@@ -102,7 +107,42 @@ public class BuildingTile extends AppCompatImageView
     public void removeTile()
     {
         _building = BuildingType.Blank;
+        tileUpdated();
         invalidate();
+    }
+
+    public void setGridPos(int x, int y)
+    {
+        _xGridPos = x;
+        _yGridPos = y;
+    }
+
+    public void setBuildingType(BuildingType buildingType)
+    {
+        _building = buildingType;
+    }
+
+    public void setCanAcceptBuildingFlag(boolean canAccept)
+    {
+        _canAcceptBuilding = canAccept;
+    }
+
+    public void setCanMoveBuildingFlag(boolean canMove)
+    {
+        _canMoveBuilding = canMove;
+    }
+
+    public void addTileUpdateListener(IBuildingTileListener listener)
+    {
+        _tileUpdateListener = listener;
+    }
+
+    private void tileUpdated()
+    {
+        if (_tileUpdateListener != null)
+        {
+            _tileUpdateListener.onTileChanged(_building, _xGridPos, _yGridPos);
+        }
     }
 
     /**
@@ -121,6 +161,7 @@ public class BuildingTile extends AppCompatImageView
                     if (canPlaceTile())
                     {
                         _building = BuildingResourceConverter.buildingFromClipData(event.getClipData());
+                        tileUpdated();
                         invalidate();
                         removeOnTransfer(event.getLocalState());
                     }

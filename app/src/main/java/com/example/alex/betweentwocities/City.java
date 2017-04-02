@@ -24,11 +24,6 @@ public class City implements Serializable
         }
     }
 
-    public City(BuildingType[][] layout)
-    {
-        _layout = layout;
-    }
-
     public BuildingType[][] getCityLayout()
     {
         return _layout.clone();
@@ -184,11 +179,6 @@ public class City implements Serializable
         return true;
     }
 
-    public boolean canAddTile(int x, int y)
-    {
-        return inBounds(x,y) && _layout[y][x] == BuildingType.Blank;
-    }
-
     private boolean inBounds(int x, int y)
     {
         return x >= 0
@@ -199,7 +189,7 @@ public class City implements Serializable
 
     public boolean tryAddTile(BuildingType tile, int x, int y)
     {
-        if (canAddTile(x,y))
+        if (inBounds(x,y))
         {
             _layout[y][x] = tile;
             _scoreUpToDate = false;
@@ -208,14 +198,27 @@ public class City implements Serializable
         return false;
     }
 
+    public BuildingType getBuildingAt(int x, int y)
+    {
+        if (inBounds(x,y))
+        {
+            return _layout[y][x];
+        }
+        return BuildingType.Blank;
+    }
+
     @Override
     public String toString()
     {
         StringBuffer output = new StringBuffer();
-        for (int i = 0; i < _layout.length; i++)
+        for (int y = 0; y < _layout.length; y++)
         {
-            String formatString = "[%-12s][%-12s][%-12s][%-12s]\n";
-            output.append(String.format(formatString, _layout[i]));
+            for (int x = 0; x <_layout[y].length; x++)
+            {
+                String formatString = "[%-12s]";
+                output.append(String.format(formatString, _layout[y][x]));
+            }
+            output.append("\n");
         }
         return output.toString();
     }
