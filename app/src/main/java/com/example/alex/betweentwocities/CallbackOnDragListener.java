@@ -22,9 +22,8 @@ public abstract class CallbackOnDragListener implements View.OnDragListener
                 Log.v(BuildingTile.class.toString(), "Has a drag callback.");
                 tile.onDragComplete();
             }
-            return true;
         }
-        return false;
+        return true;
     }
 
     public abstract boolean onDragEvent(View v, DragEvent event);

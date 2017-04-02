@@ -153,6 +153,7 @@ public class BuildingTile extends AppCompatImageView implements IDragCallback
                         _building = BuildingResourceConverter.buildingFromClipData(event.getClipData());
                         tileUpdated();
                         invalidate();
+                        return true;
                     }
                     else
                     {
@@ -163,7 +164,7 @@ public class BuildingTile extends AppCompatImageView implements IDragCallback
                     }
                 // TODO: Visual indication of if can drop.
             }
-            return true;
+            return false;
         }
     }
 
