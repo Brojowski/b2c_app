@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Displays one building in a representation of a city.
  */
-public class BuildingTile extends AppCompatImageView
+public class BuildingTile extends AppCompatImageView implements IDragCallback
 {
     private int _xGridPos;
     private int _yGridPos;
@@ -93,18 +93,8 @@ public class BuildingTile extends AppCompatImageView
         return canPlace;
     }
 
-    private void removeOnTransfer(Object localState)
-    {
-        Log.v(BuildingTile.class.toString(), "removeOnTransfer");
-        if (localState instanceof BuildingTile)
-        {
-            BuildingTile tile = (BuildingTile)localState;
-            Log.v(BuildingTile.class.toString(), "Is a building tile.");
-            tile.removeTile();
-        }
-    }
-
-    public void removeTile()
+    @Override
+    public void onDragComplete()
     {
         _building = BuildingType.Blank;
         tileUpdated();
@@ -149,10 +139,10 @@ public class BuildingTile extends AppCompatImageView
      * A class to register when a BuildingIcon is dropped on it
      * and to update the building it represents.
      */
-    private class BuildingDragListener implements View.OnDragListener
+    private class BuildingDragListener extends CallbackOnDragListener
     {
         @Override
-        public boolean onDrag(View v, DragEvent event)
+        public boolean onDragEvent(View v, DragEvent event)
         {
             int action = event.getAction();
             switch (action)
@@ -163,7 +153,6 @@ public class BuildingTile extends AppCompatImageView
                         _building = BuildingResourceConverter.buildingFromClipData(event.getClipData());
                         tileUpdated();
                         invalidate();
-                        removeOnTransfer(event.getLocalState());
                     }
                     else
                     {

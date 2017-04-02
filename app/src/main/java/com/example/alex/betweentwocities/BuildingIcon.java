@@ -6,16 +6,17 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
 /**
  * Class for draggable icons used populate a city.
  */
-public class BuildingIcon extends AppCompatImageView
+public class BuildingIcon extends AppCompatImageView implements IDragCallback
 {
     private BuildingType _building;
-    private boolean _singleIconTile;
+    private int _numberOfTiles;
 
     public BuildingIcon(Context context)
     {
@@ -43,7 +44,7 @@ public class BuildingIcon extends AppCompatImageView
         try
         {
             strBuildingType = a.getInt(R.styleable.BuildingIcon_buildingType, 0);
-            _singleIconTile = a.getBoolean(R.styleable.BuildingIcon_singleIconTile, false);
+            _numberOfTiles = a.getInteger(R.styleable.BuildingIcon_numberOfIcons, 16);
         } finally
         {
             a.recycle();
@@ -58,6 +59,16 @@ public class BuildingIcon extends AppCompatImageView
         else
         {
             setImageDrawable(null);
+        }
+    }
+
+    @Override
+    public void onDragComplete()
+    {
+        _numberOfTiles--;
+        if (_numberOfTiles <= 0)
+        {
+            this.setVisibility(GONE);
         }
     }
 
@@ -80,10 +91,6 @@ public class BuildingIcon extends AppCompatImageView
                 else
                 {
                     view.startDrag(data, shadowBuilder, view, 0);
-                }
-                if (_singleIconTile)
-                {
-                    view.setVisibility(GONE);
                 }
                 return true;
             }

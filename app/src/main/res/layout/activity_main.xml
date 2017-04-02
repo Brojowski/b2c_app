@@ -21,6 +21,7 @@
         <com.example.alex.betweentwocities.BuildingIcon
             android:layout_width="wrap_content"
             custom:buildingType="shop"
+            custom:numberOfIcons="2"
             />
 
         <com.example.alex.betweentwocities.BuildingIcon
