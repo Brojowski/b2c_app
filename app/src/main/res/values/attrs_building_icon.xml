@@ -12,6 +12,5 @@
             <enum name="food_tavern" value="8" />
             <enum name="music_tavern" value="9" />
         </attr>
-        <attr name="numberOfIcons" format="integer" />
     </declare-styleable>
 </resources>

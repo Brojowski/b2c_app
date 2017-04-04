@@ -3,6 +3,7 @@ package com.example.alex.betweentwocities;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -44,17 +45,42 @@ public class BuildingIcon extends AppCompatImageView implements IDragCallback
         try
         {
             strBuildingType = a.getInt(R.styleable.BuildingIcon_buildingType, 0);
-            _numberOfTiles = a.getInteger(R.styleable.BuildingIcon_numberOfIcons, 16);
         } finally
         {
             a.recycle();
         }
 
         _building = BuildingResourceConverter.buildingFromInt(strBuildingType);
+        updateDrawable();
+    }
+
+    public void setBuildingType(BuildingType type)
+    {
+        _building = type;
+        invalidate();
+    }
+
+    public BuildingType getBuildingType()
+    {
+        return _building;
+    }
+
+    public int getNumberBuildings()
+    {
+        return _numberOfTiles;
+    }
+
+    public void setNumberOfTiles(int number)
+    {
+        _numberOfTiles = number;
+    }
+
+    private void updateDrawable()
+    {
         int drawableResource = BuildingResourceConverter.drawableFromBuilding(_building);
         if (drawableResource != -1)
         {
-            setImageDrawable(context.getDrawable(drawableResource));
+            setImageDrawable(getContext().getDrawable(drawableResource));
         }
         else
         {
@@ -63,12 +89,20 @@ public class BuildingIcon extends AppCompatImageView implements IDragCallback
     }
 
     @Override
+    protected void onDraw(Canvas canvas)
+    {
+        updateDrawable();
+        super.onDraw(canvas);
+    }
+
+    @Override
     public void onDragComplete()
     {
         _numberOfTiles--;
         if (_numberOfTiles <= 0)
         {
-            this.setVisibility(GONE);
+            _building = BuildingType.Blank;
+            invalidate();
         }
     }
 
@@ -80,7 +114,8 @@ public class BuildingIcon extends AppCompatImageView implements IDragCallback
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent)
         {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN
+                    && _building != BuildingType.Blank)
             {
                 ClipData data = BuildingResourceConverter.clipFromBuilding(_building);
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);

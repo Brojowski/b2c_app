@@ -8,9 +8,12 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends PortraitActivity
 {
     private BoardManager _displayManager;
+    private IconManager _iconManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,6 +25,12 @@ public class MainActivity extends PortraitActivity
         score_btn.setOnClickListener(new ScoreOnClickListener());
 
         _displayManager = new BoardManager(this);
+        _iconManager = new IconManager(this, R.id.building_icons);
+        _iconManager.setLayoutMode(IconManager.Mode.Place2);
+        ArrayList<BuildingType> temp = new ArrayList<>();
+        temp.add(BuildingType.Shop);
+        temp.add(BuildingType.Park);
+        _iconManager.setIcons(temp);
     }
 
     private class ScoreOnClickListener implements View.OnClickListener
