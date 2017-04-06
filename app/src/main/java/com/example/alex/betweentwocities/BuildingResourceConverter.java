@@ -2,6 +2,8 @@ package com.example.alex.betweentwocities;
 
 import android.content.ClipData;
 
+import com.example.alex.betweentwocities.b2c_core.BuildingType;
+
 /**
  * A static class for converting different data
  * representations of BuildingType between each

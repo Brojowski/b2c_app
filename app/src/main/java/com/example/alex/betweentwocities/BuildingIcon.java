@@ -7,9 +7,10 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.alex.betweentwocities.b2c_core.BuildingType;
 
 /**
  * Class for draggable icons used populate a city.

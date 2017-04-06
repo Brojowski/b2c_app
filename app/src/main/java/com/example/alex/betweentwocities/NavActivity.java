@@ -45,6 +45,9 @@ public class NavActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Intent serviceConnect = new Intent(NavActivity.this, GameService.class);
+        startService(serviceConnect);
     }
 
     @Override

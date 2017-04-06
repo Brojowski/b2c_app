@@ -1,9 +1,10 @@
 package com.example.alex.betweentwocities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.alex.betweentwocities.b2c_core.BuildingType;
 
 import java.util.ArrayList;
 

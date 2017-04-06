@@ -2,7 +2,8 @@ package com.example.alex.betweentwocities;
 
 import android.util.Log;
 
-import java.io.Serializable;
+import com.example.alex.betweentwocities.b2c_core.BuildingType;
+import com.example.alex.betweentwocities.b2c_core.City;
 
 /**
  * Created by alex on 4/2/17.

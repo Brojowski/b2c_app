@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.Toast;
+
+import com.example.alex.betweentwocities.b2c_core.BuildingType;
+import com.example.alex.betweentwocities.b2c_core.City;
 
 import java.util.ArrayList;
 

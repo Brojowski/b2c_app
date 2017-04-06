@@ -1,4 +1,4 @@
-package com.example.alex.betweentwocities;
+package com.example.alex.betweentwocities.b2c_core;
 
 import java.io.Serializable;
 

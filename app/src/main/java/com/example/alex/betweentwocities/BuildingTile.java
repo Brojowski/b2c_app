@@ -7,13 +7,12 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.example.alex.betweentwocities.b2c_core.BuildingType;
 
 /**
  * Displays one building in a representation of a city.

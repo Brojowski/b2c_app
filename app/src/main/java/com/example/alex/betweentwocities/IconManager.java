@@ -6,6 +6,8 @@ import android.view.DragEvent;
 import android.view.View;
 import android.widget.GridLayout;
 
+import com.example.alex.betweentwocities.b2c_core.BuildingType;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
