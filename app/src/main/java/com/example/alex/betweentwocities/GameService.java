@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.alex.betweentwocities.b2c_core.Routes;
+
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -31,6 +33,24 @@ public class GameService extends IntentService
         super(GameService.class.toString());
         Log.v(this.getClass().toString(), "Start GameService.");
         init();
+        registerServerEvents();
+    }
+
+    private void registerServerEvents()
+    {
+        _socket.on(Routes.FromServer.BEGIN_DRAFT, new Emitter.Listener()
+        {
+            @Override
+            public void call(Object... args)
+            {
+
+            }
+        });
+    }
+
+    private void joinGame()
+    {
+        _socket.emit(Routes.ToServer.JOIN_GAME,"{\"uname\":\"test\"}");
     }
 
     private void init()
@@ -50,6 +70,9 @@ public class GameService extends IntentService
             public void call(Object... args)
             {
                 Log.v(GameService.this.getClass().toString(), "Socket Connected.");
+
+                //TODO: temp
+                joinGame();
             }
         }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener()
         {
@@ -79,7 +102,6 @@ public class GameService extends IntentService
             }
         });
 
-        Log.v(this.getClass().toString(), "Connect");
         _socket.connect();
         Log.v(this.getClass().toString(), "Is connected: " + _socket.connected());
     }
