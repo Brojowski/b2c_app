@@ -6,8 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.alex.betweentwocities.b2c_core.BuildingType;
-import com.example.alex.betweentwocities.b2c_core.City;
+import com.example.b2c_core.BuildingType;
+import com.example.b2c_core.City;
 
 import java.util.ArrayList;
 

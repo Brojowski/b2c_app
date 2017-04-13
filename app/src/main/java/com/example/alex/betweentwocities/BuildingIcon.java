@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.alex.betweentwocities.b2c_core.BuildingType;
+import com.example.b2c_core.BuildingType;
 
 /**
  * Class for draggable icons used populate a city.

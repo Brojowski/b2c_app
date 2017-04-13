@@ -3,7 +3,7 @@ package com.example.alex.betweentwocities;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.alex.betweentwocities.b2c_core.City;
+import com.example.b2c_core.City;
 
 import java.io.Serializable;
 

@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.alex.betweentwocities.b2c_core.BuildingType;
+import com.example.b2c_core.BuildingType;
 
 /**
  * Displays one building in a representation of a city.

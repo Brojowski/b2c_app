@@ -5,16 +5,13 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.alex.betweentwocities.b2c_core.Routes;
-
-import org.json.JSONObject;
-
 import java.net.URISyntaxException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import io.socket.engineio.client.EngineIOException;
+
 
 /**
  * Created by alex on 4/6/17.
@@ -38,19 +35,21 @@ public class GameService extends IntentService
 
     private void registerServerEvents()
     {
-        _socket.on(Routes.FromServer.BEGIN_DRAFT, new Emitter.Listener()
+/*        _socket.on(Routes.FromServer.BEGIN_DRAFT, new Emitter.Listener()
         {
             @Override
             public void call(Object... args)
             {
 
             }
-        });
+        });*/
     }
 
     private void joinGame()
     {
+/*
         _socket.emit(Routes.ToServer.JOIN_GAME,"{\"uname\":\"test\"}");
+*/
     }
 
     private void init()
