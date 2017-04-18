@@ -13,8 +13,13 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.b2c_core.DraftTransferObject;
+import com.example.b2c_core.PostDraftTransferObject;
 import com.example.b2c_core.Routes;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -83,7 +88,21 @@ public class GameService extends Service
     public void joinGame()
     {
         Log.v(this.getClass().toString(), "Trying to join game.");
-        _socket.emit(Routes.ToServer.JOIN_GAME,"{\"uname\":\"test\"}");
+        _socket.emit(Routes.ToServer.JOIN_GAME, "{\"uname\":\"test\"}");
+    }
+
+    public void finishDraft(PostDraftTransferObject draftResult)
+    {
+        Log.v(this.getClass().toString(), "Finishing draft.");
+
+        ObjectMapper m = new ObjectMapper();
+        try
+        {
+            _socket.emit(Routes.ToServer.DRAFT_COMPLETE, m.writeValueAsString(draftResult));
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void init()

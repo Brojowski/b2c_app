@@ -25,11 +25,13 @@
         <com.example.alex.betweentwocities.BuildingTile
             android:layout_width="@dimen/drafting_tile_size"
             android:layout_height="@dimen/drafting_tile_size"
+            android:id="@+id/drafting_tile_1"
             />
 
         <com.example.alex.betweentwocities.BuildingTile
             android:layout_width="@dimen/drafting_tile_size"
             android:layout_height="@dimen/drafting_tile_size"
+            android:id="@+id/drafting_tile_2"
             />
     </LinearLayout>
 
