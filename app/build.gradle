@@ -34,4 +34,21 @@ dependencies {
     compile 'com.android.support:design:25.2.0'
     testCompile 'junit:junit:4.12'
     compile project(':b2c_core')
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0.pr2'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.0.pr2'
+}
+
+android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
 }

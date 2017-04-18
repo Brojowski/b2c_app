@@ -1,0 +1,3 @@
+[submodule "b2c_core/src/main/java/com/example/b2c_core"]
+	path = b2c_core/src/main/java/com/example/b2c_core
+	url = git@github.com:Brojowski/b2c_core.git

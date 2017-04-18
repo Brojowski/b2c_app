@@ -9,4 +9,10 @@
     tools:context="com.example.alex.betweentwocities.NavActivity"
     tools:showIn="@layout/app_bar_nav">
 
+    <Button
+        android:id="@+id/join_game_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join Game"/>
+
 </android.support.constraint.ConstraintLayout>

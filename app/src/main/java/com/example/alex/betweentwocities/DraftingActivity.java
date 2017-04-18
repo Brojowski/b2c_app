@@ -1,12 +1,15 @@
 package com.example.alex.betweentwocities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.b2c_core.BuildingType;
+import com.example.b2c_core.DraftTransferObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DraftingActivity extends PortraitActivity
 {
@@ -21,15 +24,16 @@ public class DraftingActivity extends PortraitActivity
         _tileOptionsManager = new IconManager(this, R.id.available_tiles);
         _tileOptionsManager.setLayoutMode(IconManager.Mode.Draft7);
 
-        ArrayList<BuildingType> draftingTiles = new ArrayList<>();
-        draftingTiles.add(BuildingType.Tavern_Bed);
-        draftingTiles.add(BuildingType.Shop);
-        draftingTiles.add(BuildingType.House);
-        draftingTiles.add(BuildingType.Park);
-        draftingTiles.add(BuildingType.Factory);
-        draftingTiles.add(BuildingType.Tavern_Music);
-        draftingTiles.add(BuildingType.Office);
-        _tileOptionsManager.setIcons(draftingTiles);
+        Intent starter = getIntent();
+        if (starter.hasExtra(DraftTransferObject.class.toString()))
+        {
+            DraftTransferObject draftData = (DraftTransferObject) starter.getSerializableExtra(DraftTransferObject.class.toString());
+
+            ArrayList<BuildingType> draftingTiles = new ArrayList<>();
+            Collections.addAll(draftingTiles, draftData.getTiles());
+
+            _tileOptionsManager.setIcons(draftingTiles);
+        }
 
         Button doneDraftingBtn = (Button) findViewById(R.id.done_drafting);
         doneDraftingBtn.setOnClickListener(new View.OnClickListener()

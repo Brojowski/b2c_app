@@ -1,7 +1,11 @@
 package com.example.alex.betweentwocities;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -13,10 +17,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
+
+    private GameService _gameService;
+    private boolean _bound;
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Intent serviceConnect = new Intent(NavActivity.this, GameService.class);
+        startService(serviceConnect);
+        bindService(serviceConnect, _gameServiceConnection , Context.BIND_AUTO_CREATE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,8 +63,18 @@ public class NavActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Intent serviceConnect = new Intent(NavActivity.this, GameService.class);
-        startService(serviceConnect);
+        Button joinGame = (Button) findViewById(R.id.join_game_btn);
+        joinGame.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (_bound)
+                {
+                    _gameService.joinGame();
+                }
+            }
+        });
     }
 
     @Override
@@ -112,4 +139,21 @@ public class NavActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private ServiceConnection _gameServiceConnection = new ServiceConnection()
+    {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service)
+        {
+            GameService.GameServiceBinder binder = (GameService.GameServiceBinder) service;
+            _gameService = binder.getService();
+            _bound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name)
+        {
+            _bound = false;
+        }
+    };
 }
