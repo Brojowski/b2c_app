@@ -1,25 +1,17 @@
 package com.example.alex.betweentwocities;
 
-import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.b2c_core.DraftTransferObject;
 import com.example.b2c_core.PostDraftTransferObject;
 import com.example.b2c_core.Routes;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

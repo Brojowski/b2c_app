@@ -25,7 +25,6 @@ public class DraftingActivity extends PortraitActivity
         setContentView(R.layout.activity_drafting);
 
         _tileOptionsManager = new IconManager(this, R.id.available_tiles);
-        _tileOptionsManager.setLayoutMode(IconManager.Mode.Draft7);
 
         Intent starter = getIntent();
         if (starter.hasExtra(DraftTransferObject.class.toString()))
@@ -35,6 +34,23 @@ public class DraftingActivity extends PortraitActivity
             ArrayList<BuildingType> draftingTiles = new ArrayList<>();
             Collections.addAll(draftingTiles, draftData.getTiles());
 
+            IconManager.Mode layoutMode;
+            switch (draftData.getTiles().length)
+            {
+                case 3:
+                    layoutMode = IconManager.Mode.Draft3;
+                    break;
+                case 5:
+                    layoutMode = IconManager.Mode.Draft5;
+                    break;
+                case 7:
+                    layoutMode = IconManager.Mode.Draft7;
+                    break;
+                default:
+                    layoutMode = IconManager.Mode.AllAvailable;
+                    break;
+            }
+            _tileOptionsManager.setLayoutMode(layoutMode);
             _tileOptionsManager.setIcons(draftingTiles);
         }
 
@@ -53,7 +69,7 @@ public class DraftingActivity extends PortraitActivity
                     if (draftedTile1.getBuildingType() == BuildingType.Blank
                             || draftedTile2.getBuildingType() == BuildingType.Blank)
                     {
-                        Toast.makeText(DraftingActivity.this,"Two tiles must be chosen.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DraftingActivity.this, "Two tiles must be chosen.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     PostDraftTransferObject draftResult = PostDraftTransferObject.create(
