@@ -12,4 +12,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="str_title">Between Two Cities</string>
+    <string name="str_join_game">Join Game</string>
+    <string name="str_connecting">Connecting To Server</string>
+    <string name="str_waiting_for_players">Waiting For Players</string>
 </resources>

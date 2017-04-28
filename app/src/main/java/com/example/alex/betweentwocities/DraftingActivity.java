@@ -32,10 +32,10 @@ public class DraftingActivity extends PortraitActivity
             DraftTransferObject draftData = (DraftTransferObject) starter.getSerializableExtra(DraftTransferObject.class.toString());
 
             ArrayList<BuildingType> draftingTiles = new ArrayList<>();
-            Collections.addAll(draftingTiles, draftData.getTiles());
+            Collections.addAll(draftingTiles, draftData.availableTiles);
 
             IconManager.Mode layoutMode;
-            switch (draftData.getTiles().length)
+            switch (draftData.availableTiles.length)
             {
                 case 3:
                     layoutMode = IconManager.Mode.Draft3;
@@ -76,6 +76,8 @@ public class DraftingActivity extends PortraitActivity
                             draftedTile1.getBuildingType(),
                             draftedTile2.getBuildingType());
                     _gameService.finishDraft(draftResult);
+                    Intent waitingScreen = new Intent(DraftingActivity.this, HomeActivity.class);
+                    startActivity(waitingScreen);
                 }
                 else
                 {

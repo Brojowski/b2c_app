@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.alex.betweentwocities">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -11,23 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <service android:name=".GameService" />
+        <service android:name=".GameService"/>
 
         <activity android:name=".MainActivity">
         </activity>
         <activity android:name=".ScoreActivity">
         </activity>
-        <activity
-            android:name=".NavActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".DraftingActivity">
+        </activity>
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".DraftingActivity">
+        <activity android:name=".LoadingActivity" android:noHistory="true">
         </activity>
     </application>
 

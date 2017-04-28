@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.b2c_core.DraftTransferObject;
+import com.example.b2c_core.PlaceTransferObject;
 import com.example.b2c_core.PostDraftTransferObject;
 import com.example.b2c_core.Routes;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,6 +32,7 @@ public class GameService extends Service
     private final IBinder _gameServiceBinder = new GameServiceBinder();
     private static final String url = "http://10.1.1.191:8000";
     private Socket _socket;
+    private Runnable _connectionCallback;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -56,22 +58,39 @@ public class GameService extends Service
             @Override
             public void call(Object... args)
             {
-                for (Object o : args)
+                ObjectMapper mapper = new ObjectMapper();
+                try
                 {
-                    ObjectMapper mapper = new ObjectMapper();
-                    try
-                    {
-                        DraftTransferObject c = mapper.readValue(o.toString(), DraftTransferObject.class);
-                        Log.v(this.getClass().toString(), c.toString());
+                    DraftTransferObject c = mapper.readValue(args[0].toString(), DraftTransferObject.class);
+                    Log.v(this.getClass().toString(), c.toString());
 
-                        Intent notificationIntent = new Intent(GameService.this, DraftingActivity.class);
-                        notificationIntent.putExtra(DraftTransferObject.class.toString(), c);
-                        startActivity(notificationIntent);
+                    Intent notificationIntent = new Intent(GameService.this, DraftingActivity.class);
+                    notificationIntent.putExtra(DraftTransferObject.class.toString(), c);
+                    startActivity(notificationIntent);
 
-                    } catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).on(Routes.FromServer.BEGIN_PLACE, new Emitter.Listener()
+        {
+            @Override
+            public void call(Object... args)
+            {
+                ObjectMapper mapper = new ObjectMapper();
+                try
+                {
+                    PlaceTransferObject c = mapper.readValue(args[0].toString(), PlaceTransferObject.class);
+                    Log.v(this.getClass().toString(), c.toString());
+
+                    Intent notificationIntent = new Intent(GameService.this, MainActivity.class);
+                    notificationIntent.putExtra(PlaceTransferObject.class.toString(), c);
+                    startActivity(notificationIntent);
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
                 }
             }
         });
@@ -114,6 +133,10 @@ public class GameService extends Service
             public void call(Object... args)
             {
                 Log.v(GameService.this.getClass().toString(), "Socket Connected.");
+                if (_connectionCallback != null)
+                {
+                    _connectionCallback.run();
+                }
             }
         }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener()
         {
@@ -145,6 +168,16 @@ public class GameService extends Service
 
         _socket.connect();
         Log.v(this.getClass().toString(), "Is connected: " + _socket.connected());
+    }
+
+    public boolean isConnected(Runnable callback)
+    {
+        if (_socket.connected())
+        {
+            return true;
+        }
+        _connectionCallback = callback;
+        return false;
     }
 
     @Override

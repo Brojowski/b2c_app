@@ -33,6 +33,8 @@ public abstract class PortraitActivity extends AppCompatActivity
         unbindService(_gameServiceConnection);
     }
 
+    protected void onGameServiceConnection(){}
+
     private ServiceConnection _gameServiceConnection = new ServiceConnection()
     {
         @Override
@@ -41,6 +43,7 @@ public abstract class PortraitActivity extends AppCompatActivity
             GameService.GameServiceBinder binder = (GameService.GameServiceBinder) service;
             _gameService = binder.getService();
             _bound = true;
+            onGameServiceConnection();
         }
 
         @Override

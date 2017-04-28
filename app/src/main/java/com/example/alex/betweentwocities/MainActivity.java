@@ -8,8 +8,12 @@ import android.widget.Button;
 
 import com.example.b2c_core.BuildingType;
 import com.example.b2c_core.City;
+import com.example.b2c_core.PlaceTransferObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class MainActivity extends PortraitActivity
 {
@@ -25,13 +29,25 @@ public class MainActivity extends PortraitActivity
         final Button score_btn = (Button) findViewById(R.id.score_btn);
         score_btn.setOnClickListener(new ScoreOnClickListener());
 
-        _displayManager = new BoardManager(this);
+
         _iconManager = new IconManager(this, R.id.building_icons);
-        _iconManager.setLayoutMode(IconManager.Mode.Place2);
-        ArrayList<BuildingType> temp = new ArrayList<>();
-        temp.add(BuildingType.Shop);
-        temp.add(BuildingType.Park);
-        _iconManager.setIcons(temp);
+
+        Intent starter = getIntent();
+        if (starter.hasExtra(PlaceTransferObject.class.toString()))
+        {
+            PlaceTransferObject transferObject = (PlaceTransferObject) starter.getSerializableExtra(PlaceTransferObject.class.toString());
+            _iconManager.setLayoutMode(IconManager.Mode.Place2);
+            ArrayList<BuildingType> tiles = new ArrayList<>();
+            Collections.addAll(tiles, transferObject.tiles.get(transferObject.currentUser));
+            _iconManager.setIcons(tiles);
+
+            _displayManager = new BoardManager(this, transferObject.leftCity.getCity());
+        }
+
+        if (_displayManager == null)
+        {
+            _displayManager = new BoardManager(this);
+        }
     }
 
     private class ScoreOnClickListener implements View.OnClickListener

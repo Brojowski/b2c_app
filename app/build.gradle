@@ -28,14 +28,14 @@ dependencies {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
+    compile project(':b2c_core')
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.android.support:design:25.2.0'
-    testCompile 'junit:junit:4.12'
-    compile project(':b2c_core')
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0.pr2'
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.0.pr2'
+    testCompile 'junit:junit:4.12'
 }
 
 android {
