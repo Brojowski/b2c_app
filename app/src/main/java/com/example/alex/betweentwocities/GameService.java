@@ -7,7 +7,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.b2c_core.BuildingType;
+import com.example.b2c_core.City;
 import com.example.b2c_core.DraftTransferObject;
+import com.example.b2c_core.PlaceTileTransferObject;
 import com.example.b2c_core.PlaceTransferObject;
 import com.example.b2c_core.PostDraftTransferObject;
 import com.example.b2c_core.Routes;
@@ -227,6 +230,30 @@ public class GameService extends Service
     {
         _updateReciever = updateReciever;
         emptyBoardUpdates();
+    }
+
+    public void placeTile(User player, BuildingType tile, SharedCity city, int x, int y)
+    {
+        PlaceTileTransferObject ptto = new PlaceTileTransferObject();
+        ptto.currentUser = player;
+        ptto.targetCity = city;
+        ptto.tileToPlace = tile;
+        ptto.x = x;
+        ptto.y = y;
+        ObjectMapper mapper = new ObjectMapper();
+        try
+        {
+            String output = mapper.writeValueAsString(ptto);
+            _socket.emit(Routes.ToServer.PLAY_TILE, output);
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void placeComplete()
+    {
+        _socket.emit(Routes.ToServer.PLACE_COMPLETE);
     }
 
     @Override

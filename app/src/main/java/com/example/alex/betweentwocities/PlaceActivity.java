@@ -22,6 +22,7 @@ public class PlaceActivity extends PortraitActivity implements IBoardUpdateListe
     private BoardManager _leftBoard;
     private BoardManager _rightBoard;
     private BoardManager _otherBoard;
+    private User _currentUser;
 
     /**
      * The user is always the board's left player.
@@ -54,6 +55,8 @@ public class PlaceActivity extends PortraitActivity implements IBoardUpdateListe
         {
             PlaceTransferObject transferObject = (PlaceTransferObject) starter.getSerializableExtra(PlaceTransferObject.class.toString());
 
+            _currentUser = transferObject.currentUser;
+
             final SharedCity leftCity = transferObject.leftCity;
             final SharedCity rightCity = transferObject.rightCity;
 
@@ -74,10 +77,12 @@ public class PlaceActivity extends PortraitActivity implements IBoardUpdateListe
                 }
             });
 
+            _leftBoard.setCity(leftCity.getCity());
+            _rightBoard.setCity(rightCity.getCity());
+            _otherBoard.setCity(transferObject.otherCity.getCity());
+
             _boards.put(transferObject.leftCity.getLeftPlayer(), _leftBoard);
             _boards.put(transferObject.rightCity.getLeftPlayer(), _rightBoard);
-            // Special case of using .getRightPlayer() because this is the
-            // unaccounted for player.
             _boards.put(transferObject.rightCity.getRightPlayer(), _otherBoard);
 
             Map<User, BuildingType[]> tiles = transferObject.tiles;
@@ -98,7 +103,7 @@ public class PlaceActivity extends PortraitActivity implements IBoardUpdateListe
                 // TODO: Logic to make sure tiles played correctly.
                 if (_bound)
                 {
-                    // TODO: Send place complete request.
+                    _gameService.placeComplete();
                 }
             }
         });
@@ -138,7 +143,7 @@ public class PlaceActivity extends PortraitActivity implements IBoardUpdateListe
         // TODO: send tile updates to server.
         if (_bound)
         {
-
+            _gameService.placeTile(_currentUser, tile, updatedCity, x, y);
         }
     }
 }
