@@ -1,6 +1,7 @@
 package com.example.alex.betweentwocities;
 
 import android.util.Log;
+import android.view.View;
 
 import com.example.b2c_core.BuildingType;
 import com.example.b2c_core.City;
@@ -38,28 +39,40 @@ public class BoardManager implements IBuildingTileListener
             }
     };
     private BuildingTile[][] _displayTiles = new BuildingTile[4][4];
-
     private City _city;
+    private View _boardBase;
+    private ITileUpdateListener _updateListener;
 
     public BoardManager(PortraitActivity boardContext)
     {
-        this(boardContext,new City());
+        this(boardContext.findViewById(android.R.id.content), new City());
     }
 
     public BoardManager(PortraitActivity boardContext, City existingCity)
     {
-        _city = existingCity;
-        init(boardContext);
+        this(boardContext.findViewById(android.R.id.content), existingCity);
     }
 
-    private void init(PortraitActivity boardContext)
+    public BoardManager(View boardContext, City existingCity)
+    {
+        _city = existingCity;
+        _boardBase = boardContext;
+        init();
+    }
+
+    public BoardManager(PlaceActivity boardContext, int boardBaseView)
+    {
+        this(boardContext.findViewById(boardBaseView), new City());
+    }
+
+    private void init()
     {
         for (int y = 0; y < 4; y++)
         {
             for (int x = 0; x < 4; x++)
             {
-                _displayTiles[y][x] = (BuildingTile) boardContext.findViewById(GRID_IDS[y][x]);
-                Log.v(BoardManager.class.toString(),_displayTiles[y][x].toString()+ "[y:"+y+",x:"+x+"]");
+                _displayTiles[y][x] = (BuildingTile) _boardBase.findViewById(GRID_IDS[y][x]);
+                Log.v(BoardManager.class.toString(), _displayTiles[y][x].toString() + "[y:" + y + ",x:" + x + "]");
                 _displayTiles[y][x].setGridPos(x, y);
                 _displayTiles[y][x].addTileUpdateListener(this);
                 _displayTiles[y][x].setBuildingType(_city.getBuildingAt(x, y));
@@ -72,10 +85,25 @@ public class BoardManager implements IBuildingTileListener
     {
         Log.v(BoardManager.class.toString(), "Building change to " + building.toString() + " at [" + xPos + "," + yPos + "].");
         _city.tryAddTile(building, xPos, yPos);
+        if (_updateListener != null)
+        {
+            _updateListener.onTileUpdate(building, xPos, yPos);
+        }
     }
 
     public City getCity()
     {
         return _city;
+    }
+
+    public void setCity(City city)
+    {
+        _city = city;
+        init();
+    }
+
+    public void onTileUpdate(ITileUpdateListener iTileUpdateListener)
+    {
+        _updateListener = iTileUpdateListener;
     }
 }

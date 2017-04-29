@@ -20,8 +20,10 @@ public class LoadingActivity extends PortraitActivity
         setContentView(R.layout.activity_loading);
     }
 
-    private void hideConnectionSpinner()
+    private void onConnection()
     {
+        _gameService.joinGame();
+
         ProgressBar connBar = (ProgressBar) findViewById(R.id.connected_spinner);
         connBar.setVisibility(View.INVISIBLE);
         ImageView complete = (ImageView) findViewById(R.id.connected_complete);
@@ -43,16 +45,15 @@ public class LoadingActivity extends PortraitActivity
                         @Override
                         public void run()
                         {
-                            hideConnectionSpinner();
+                            onConnection();
                         }
                     });
                 }
             };
             if (_gameService.isConnected(onConnection))
             {
-                hideConnectionSpinner();
+                onConnection();
             }
-            _gameService.joinGame();
         }
     }
 }

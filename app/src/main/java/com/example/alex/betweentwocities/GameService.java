@@ -11,11 +11,16 @@ import com.example.b2c_core.DraftTransferObject;
 import com.example.b2c_core.PlaceTransferObject;
 import com.example.b2c_core.PostDraftTransferObject;
 import com.example.b2c_core.Routes;
+import com.example.b2c_core.SharedCity;
+import com.example.b2c_core.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -33,6 +38,8 @@ public class GameService extends Service
     private static final String url = "http://10.1.1.191:8000";
     private Socket _socket;
     private Runnable _connectionCallback;
+    private IBoardUpdateListener _updateReciever;
+    private Map<User, SharedCity> _cityUpdates = new HashMap<>();
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -84,9 +91,35 @@ public class GameService extends Service
                     PlaceTransferObject c = mapper.readValue(args[0].toString(), PlaceTransferObject.class);
                     Log.v(this.getClass().toString(), c.toString());
 
-                    Intent notificationIntent = new Intent(GameService.this, MainActivity.class);
+                    Intent notificationIntent = new Intent(GameService.this, PlaceActivity.class);
                     notificationIntent.putExtra(PlaceTransferObject.class.toString(), c);
                     startActivity(notificationIntent);
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).on(Routes.FromServer.BOARD_UPDATE, new Emitter.Listener()
+        {
+            @Override
+            public void call(Object... args)
+            {
+                Log.v(GameService.this.getClass().toString(), Routes.FromServer.BOARD_UPDATE);
+                ObjectMapper mapper = new ObjectMapper();
+                if (args.length < 1)
+                {
+                    return;
+                }
+                try
+                {
+                    SharedCity city = mapper.readValue(args[0].toString(), SharedCity.class);
+                    _cityUpdates.put(city.getLeftPlayer(), city);
+
+                    if (_updateReciever != null)
+                    {
+                        emptyBoardUpdates();
+                    }
 
                 } catch (IOException e)
                 {
@@ -172,12 +205,28 @@ public class GameService extends Service
 
     public boolean isConnected(Runnable callback)
     {
+        _connectionCallback = callback;
         if (_socket.connected())
         {
             return true;
         }
-        _connectionCallback = callback;
         return false;
+    }
+
+    private void emptyBoardUpdates()
+    {
+        Iterator<Map.Entry<User, SharedCity>> updates = _cityUpdates.entrySet().iterator();
+        while (updates.hasNext())
+        {
+            _updateReciever.onBoardUpdate(updates.next().getValue());
+            updates.remove();
+        }
+    }
+
+    public void addBoardUpdateListener(IBoardUpdateListener updateReciever)
+    {
+        _updateReciever = updateReciever;
+        emptyBoardUpdates();
     }
 
     @Override

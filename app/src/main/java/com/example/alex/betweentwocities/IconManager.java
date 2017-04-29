@@ -62,12 +62,12 @@ public class IconManager
     public IconManager(PortraitActivity context, int iconLayout)
     {
         init();
-        generateBuildingIcons(context);
         GridLayout iconArea = (GridLayout)context.findViewById(iconLayout);
+        generateBuildingIcons(iconArea);
         iconArea.setOnDragListener(new RemoveFromBoardDropListener());
     }
 
-    private void generateBuildingIcons(PortraitActivity context)
+    private void generateBuildingIcons(GridLayout iconLayout)
     {
         _iconViews = new BuildingIcon[2][];
         _iconViews[0] = new BuildingIcon[7];
@@ -76,7 +76,7 @@ public class IconManager
         {
             for (int x = 0; x < ICON[y].length; x++)
             {
-                _iconViews[y][x] = (BuildingIcon) context.findViewById(ICON[y][x]);
+                _iconViews[y][x] = (BuildingIcon) iconLayout.findViewById(ICON[y][x]);
                 Log.v(IconManager.class.toString(), _iconViews[y][x].toString() + "[y:" + y + ",x:" + x + "]");
             }
         }

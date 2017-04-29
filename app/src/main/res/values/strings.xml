@@ -16,4 +16,5 @@
     <string name="str_join_game">Join Game</string>
     <string name="str_connecting">Connecting To Server</string>
     <string name="str_waiting_for_players">Waiting For Players</string>
+    <string name="str_done_placing">Done Placing</string>
 </resources>

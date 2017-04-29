@@ -26,7 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".LoadingActivity" android:noHistory="true">
+        <activity
+            android:name=".LoadingActivity"
+            android:noHistory="true">
+        </activity>
+        <activity android:name=".PlaceActivity">
         </activity>
     </application>
 

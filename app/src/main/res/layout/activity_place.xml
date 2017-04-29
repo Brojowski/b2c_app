@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.example.alex.betweentwocities.PlaceActivity">
+
+    <TextView
+        android:id="@+id/center_tile_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="You"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        />
+
+    <FrameLayout
+        android:id="@+id/center_tile_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/center_tile_label"
+        android:layout_centerHorizontal="true"
+        >
+
+        <include
+            android:id="@+id/center_icons"
+            layout="@layout/layout_tile_selection"/>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_boards_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/center_tile_frame">
+
+        <FrameLayout
+            android:id="@+id/left_board_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
+
+            <include
+                android:id="@+id/left_board"
+                layout="@layout/mini_board"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/right_board_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <include
+                android:id="@+id/right_board"
+                layout="@layout/mini_board"/>
+        </FrameLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/left_tile_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/my_boards_frame"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:paddingTop="32dp"
+        />
+
+    <FrameLayout
+        android:id="@+id/left_tile_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/left_tile_label">
+
+        <include
+            android:id="@+id/left_icons"
+            layout="@layout/layout_tile_selection"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/other_board_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_boards_frame"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="32dp">
+
+        <include
+            android:id="@+id/other_board"
+            layout="@layout/mini_board"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/right_tile_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/my_boards_frame"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:paddingTop="32dp"
+        />
+
+    <FrameLayout
+        android:id="@+id/right_tile_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/right_tile_label">
+
+        <include
+            android:id="@+id/right_icons"
+            layout="@layout/layout_tile_selection"/>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_place_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/str_done_placing"/>
+
+</RelativeLayout>
