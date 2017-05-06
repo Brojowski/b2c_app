@@ -31,23 +31,8 @@ public class MainActivity extends PortraitActivity
 
 
         _iconManager = new IconManager(this, R.id.building_icons);
-
-        Intent starter = getIntent();
-        if (starter.hasExtra(PlaceTransferObject.class.toString()))
-        {
-            PlaceTransferObject transferObject = (PlaceTransferObject) starter.getSerializableExtra(PlaceTransferObject.class.toString());
-            _iconManager.setLayoutMode(IconManager.Mode.Place2);
-            ArrayList<BuildingType> tiles = new ArrayList<>();
-            Collections.addAll(tiles, transferObject.tiles.get(transferObject.currentUser));
-            _iconManager.setIcons(tiles);
-
-            _displayManager = new BoardManager(this, transferObject.leftCity.getCity());
-        }
-
-        if (_displayManager == null)
-        {
-            _displayManager = new BoardManager(this);
-        }
+        _iconManager.setLayoutMode(IconManager.Mode.AllAvailable);
+        _displayManager = new BoardManager(this);
     }
 
     private class ScoreOnClickListener implements View.OnClickListener
@@ -59,7 +44,7 @@ public class MainActivity extends PortraitActivity
             City newCity = _displayManager.getCity();
             Log.v(MainActivity.class.toString(), newCity.toString());
             Intent scoreCity = new Intent(MainActivity.this, ScoreActivity.class);
-            scoreCity.putExtra("City", newCity);
+            scoreCity.putExtra(City.class.toString(), newCity);
             startActivity(scoreCity);
         }
     }

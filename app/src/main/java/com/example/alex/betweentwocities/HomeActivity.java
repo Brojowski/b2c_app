@@ -25,5 +25,15 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(joinGame);
             }
         });
+        final Button scoreBoardBtn = (Button) findViewById(R.id.btn_score_board);
+        scoreBoardBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent buildBoard = new Intent(HomeActivity.this, MainActivity.class);
+                startActivity(buildBoard);
+            }
+        });
     }
 }

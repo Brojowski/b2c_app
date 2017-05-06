@@ -126,12 +126,13 @@ public class BuildingTile extends AppCompatImageView implements IDragCallback
         _tileUpdateListener = listener;
     }
 
-    private void tileUpdated()
+    private boolean tileUpdated()
     {
         if (_tileUpdateListener != null)
         {
-            _tileUpdateListener.onTileChanged(_building, _xGridPos, _yGridPos);
+            return _tileUpdateListener.onTileChanged(_building, _xGridPos, _yGridPos);
         }
+        return true;
     }
 
     /**
@@ -149,19 +150,30 @@ public class BuildingTile extends AppCompatImageView implements IDragCallback
                 case DragEvent.ACTION_DROP:
                     if (canPlaceTile())
                     {
+                        BuildingType previous = _building;
                         _building = BuildingResourceConverter.buildingFromClipData(event.getClipData());
-                        tileUpdated();
-                        invalidate();
-                        return true;
+                        boolean validPlace = tileUpdated();
+                        if (validPlace)
+                        {
+                            invalidate();
+                        }
+                        else
+                        {
+                            _building = previous;
+                            Toast.makeText(getContext()
+                                    , "Building must be placed next to another building"
+                                    , Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                        return validPlace;
                     }
                     else
                     {
                         Toast.makeText(getContext()
-                                , "Can't "+(_building != BuildingType.Blank? "replace" : "place") + " building."
+                                , "Can't " + (_building != BuildingType.Blank ? "replace" : "place") + " building."
                                 , Toast.LENGTH_SHORT)
                                 .show();
                     }
-                // TODO: Visual indication of if can drop.
             }
             return false;
         }
@@ -183,6 +195,7 @@ public class BuildingTile extends AppCompatImageView implements IDragCallback
             if (event.getAction() == MotionEvent.ACTION_DOWN
                     && _building != BuildingType.Blank)
             {
+                _tileUpdateListener.onTileChanged(_building, _xGridPos, _yGridPos);
                 ClipData data = BuildingResourceConverter.clipFromBuilding(_building);
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 if (Build.VERSION.SDK_INT >= 24)

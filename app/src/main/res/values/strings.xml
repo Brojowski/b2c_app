@@ -17,4 +17,5 @@
     <string name="str_connecting">Connecting To Server</string>
     <string name="str_waiting_for_players">Waiting For Players</string>
     <string name="str_done_placing">Done Placing</string>
+    <string name="str_score_board">Score Board</string>
 </resources>

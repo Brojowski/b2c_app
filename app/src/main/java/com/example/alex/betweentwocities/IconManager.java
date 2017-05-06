@@ -113,6 +113,10 @@ public class IconManager
                 if (i < max && !offIcons.contains(new Point(x+1,y+1)))
                 {
                     _iconViews[y][x].setBuildingType(_iconTypes.get(i));
+                    if (_iconLayoutMode == Mode.AllAvailable)
+                    {
+                        _iconViews[y][x].setNumberOfTiles(100);
+                    }
                     i++;
                 }
             }

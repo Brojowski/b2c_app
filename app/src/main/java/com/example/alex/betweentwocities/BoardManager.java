@@ -42,6 +42,7 @@ public class BoardManager implements IBuildingTileListener
     private City _city;
     private View _boardBase;
     private ITileUpdateListener _updateListener;
+    private boolean _allowRandomPlace = false;
 
     public BoardManager(PortraitActivity boardContext)
     {
@@ -60,7 +61,7 @@ public class BoardManager implements IBuildingTileListener
         init();
     }
 
-    public BoardManager(PlaceActivity boardContext, int boardBaseView)
+    public BoardManager(PortraitActivity boardContext, int boardBaseView)
     {
         this(boardContext.findViewById(boardBaseView), new City());
     }
@@ -81,14 +82,28 @@ public class BoardManager implements IBuildingTileListener
     }
 
     @Override
-    public void onTileChanged(BuildingType building, int xPos, int yPos)
+    public boolean onTileChanged(BuildingType building, int xPos, int yPos)
     {
         Log.v(BoardManager.class.toString(), "Building change to " + building.toString() + " at [" + xPos + "," + yPos + "].");
-        _city.tryAddTile(building, xPos, yPos);
+        boolean placeSuccess;
+        if (_allowRandomPlace)
+        {
+            placeSuccess = _city.tryAddTile(building, xPos, yPos);
+        }
+        else
+        {
+            placeSuccess = _city.tryPlaceTile(building, xPos, yPos);
+        }
         if (_updateListener != null)
         {
             _updateListener.onTileUpdate(building, xPos, yPos);
         }
+        return placeSuccess;
+    }
+
+    public void allowRandomPlace(boolean randomPlace)
+    {
+        _allowRandomPlace = randomPlace;
     }
 
     public City getCity()

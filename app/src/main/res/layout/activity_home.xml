@@ -29,4 +29,18 @@
         android:textSize="50dp"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:background="@color/gray"
+        android:text="@string/str_score_board"
+        android:id="@+id/btn_score_board"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_join_game"
+        android:layout_margin="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        />
+
 </RelativeLayout>

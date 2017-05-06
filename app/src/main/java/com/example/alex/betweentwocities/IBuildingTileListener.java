@@ -9,5 +9,5 @@ import com.example.b2c_core.BuildingType;
 
 public interface IBuildingTileListener
 {
-    void onTileChanged(BuildingType building, int xPos, int yPos);
+    boolean onTileChanged(BuildingType building, int xPos, int yPos);
 }
