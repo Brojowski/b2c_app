@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 
 public abstract class PortraitActivity extends AppCompatActivity
 {
-    protected GameService _gameService;
+    protected IGameService _gameService;
     protected boolean _bound;
 
     @Override
@@ -22,7 +22,7 @@ public abstract class PortraitActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Intent bindToService = new Intent(this, GameService.class);
+        Intent bindToService = new Intent(this, DummyGameService.class);
         bindService(bindToService, _gameServiceConnection, BIND_AUTO_CREATE);
     }
 
@@ -40,7 +40,7 @@ public abstract class PortraitActivity extends AppCompatActivity
         @Override
         public void onServiceConnected(ComponentName name, IBinder service)
         {
-            GameService.GameServiceBinder binder = (GameService.GameServiceBinder) service;
+            DummyGameService.DummyBinder binder = (DummyGameService.DummyBinder) service;
             _gameService = binder.getService();
             _bound = true;
             onGameServiceConnection();

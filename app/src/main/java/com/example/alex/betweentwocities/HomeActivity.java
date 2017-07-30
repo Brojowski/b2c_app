@@ -31,8 +31,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent buildBoard = new Intent(HomeActivity.this, MainActivity.class);
-                startActivity(buildBoard);
+                // TODO: Add standalone scoring area.
             }
         });
     }

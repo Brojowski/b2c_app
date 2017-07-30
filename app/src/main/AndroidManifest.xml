@@ -12,13 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".GameService"/>
-
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".ScoreActivity">
-        </activity>
-        <activity android:name=".DraftingActivity">
-        </activity>
+        <service android:name=".DummyGameService" />
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,8 +23,6 @@
         <activity
             android:name=".LoadingActivity"
             android:noHistory="true">
-        </activity>
-        <activity android:name=".PlaceActivity">
         </activity>
     </application>
 

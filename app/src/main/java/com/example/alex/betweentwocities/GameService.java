@@ -35,7 +35,7 @@ import io.socket.engineio.client.EngineIOException;
  * Created by alex on 4/6/17.
  */
 
-public class GameService extends Service
+public class GameService extends Service implements IGameService
 {
     private final IBinder _gameServiceBinder = new GameServiceBinder();
     private static final String url = "http://10.1.1.191:8000";
@@ -59,97 +59,6 @@ public class GameService extends Service
     public IBinder onBind(Intent intent)
     {
         return _gameServiceBinder;
-    }
-
-    private void registerServerEvents()
-    {
-        _socket.on(Routes.FromServer.BEGIN_DRAFT, new Emitter.Listener()
-        {
-            @Override
-            public void call(Object... args)
-            {
-                ObjectMapper mapper = new ObjectMapper();
-                try
-                {
-                    DraftTransferObject c = mapper.readValue(args[0].toString(), DraftTransferObject.class);
-                    Log.v(this.getClass().toString(), c.toString());
-
-                    Intent notificationIntent = new Intent(GameService.this, DraftingActivity.class);
-                    notificationIntent.putExtra(DraftTransferObject.class.toString(), c);
-                    startActivity(notificationIntent);
-
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).on(Routes.FromServer.BEGIN_PLACE, new Emitter.Listener()
-        {
-            @Override
-            public void call(Object... args)
-            {
-                ObjectMapper mapper = new ObjectMapper();
-                try
-                {
-                    PlaceTransferObject c = mapper.readValue(args[0].toString(), PlaceTransferObject.class);
-                    Log.v(this.getClass().toString(), c.toString());
-
-                    Intent notificationIntent = new Intent(GameService.this, PlaceActivity.class);
-                    notificationIntent.putExtra(PlaceTransferObject.class.toString(), c);
-                    startActivity(notificationIntent);
-
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).on(Routes.FromServer.BOARD_UPDATE, new Emitter.Listener()
-        {
-            @Override
-            public void call(Object... args)
-            {
-                Log.v(GameService.this.getClass().toString(), Routes.FromServer.BOARD_UPDATE);
-                ObjectMapper mapper = new ObjectMapper();
-                if (args.length < 1)
-                {
-                    return;
-                }
-                try
-                {
-                    SharedCity city = mapper.readValue(args[0].toString(), SharedCity.class);
-                    _cityUpdates.put(city.getLeftPlayer(), city);
-
-                    if (_updateReciever != null)
-                    {
-                        emptyBoardUpdates();
-                    }
-
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void joinGame()
-    {
-        Log.v(this.getClass().toString(), "Trying to join game.");
-        _socket.emit(Routes.ToServer.JOIN_GAME, "{\"uname\":\"test\"}");
-    }
-
-    public void finishDraft(PostDraftTransferObject draftResult)
-    {
-        Log.v(this.getClass().toString(), "Finishing draft.");
-
-        ObjectMapper m = new ObjectMapper();
-        try
-        {
-            _socket.emit(Routes.ToServer.DRAFT_COMPLETE, m.writeValueAsString(draftResult));
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        }
     }
 
     private void init()
@@ -205,15 +114,143 @@ public class GameService extends Service
         _socket.connect();
         Log.v(this.getClass().toString(), "Is connected: " + _socket.connected());
     }
+    private void registerServerEvents()
+    {
+        _socket.on(Routes.FromServer.BEGIN_DRAFT, new Emitter.Listener()
+        {
+            @Override
+            public void call(Object... args)
+            {
+                ObjectMapper mapper = new ObjectMapper();
+                try
+                {
+                    DraftTransferObject c = mapper.readValue(args[0].toString(), DraftTransferObject.class);
+                    Log.v(this.getClass().toString(), c.toString());
 
-    public boolean isConnected(Runnable callback)
+                    //Intent notificationIntent = new Intent(GameService.this, DraftingActivity.class);
+                    //notificationIntent.putExtra(DraftTransferObject.class.toString(), c);
+                    //startActivity(notificationIntent);
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).on(Routes.FromServer.BEGIN_PLACE, new Emitter.Listener()
+        {
+            @Override
+            public void call(Object... args)
+            {
+                ObjectMapper mapper = new ObjectMapper();
+                try
+                {
+                    PlaceTransferObject c = mapper.readValue(args[0].toString(), PlaceTransferObject.class);
+                    Log.v(this.getClass().toString(), c.toString());
+
+                    //Intent notificationIntent = new Intent(GameService.this, PlaceActivity.class);
+                    //notificationIntent.putExtra(PlaceTransferObject.class.toString(), c);
+                    //startActivity(notificationIntent);
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).on(Routes.FromServer.BOARD_UPDATE, new Emitter.Listener()
+        {
+            @Override
+            public void call(Object... args)
+            {
+                Log.v(GameService.this.getClass().toString(), Routes.FromServer.BOARD_UPDATE);
+                ObjectMapper mapper = new ObjectMapper();
+                if (args.length < 1)
+                {
+                    return;
+                }
+                try
+                {
+                    SharedCity city = mapper.readValue(args[0].toString(), SharedCity.class);
+                    _cityUpdates.put(city.getLeftPlayer(), city);
+
+                    if (_updateReciever != null)
+                    {
+                        emptyBoardUpdates();
+                    }
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public boolean isConnected()
+    {
+        return _socket.connected();
+    }
+
+    @Override
+    public void registerOnConnection(Runnable callback)
     {
         _connectionCallback = callback;
-        if (_socket.connected())
+    }
+
+    @Override
+    public User getCurrentUser()
+    {
+        return null;
+    }
+
+    @Override
+    public void login(User u)
+    {
+
+    }
+
+    public void joinGame()
+    {
+        Log.v(this.getClass().toString(), "Trying to join game.");
+        _socket.emit(Routes.ToServer.JOIN_GAME, "{\"uname\":\"test\"}");
+    }
+
+    @Override
+    public void joinGame(User... friends)
+    {
+
+    }
+
+    @Override
+    public void draft(BuildingType tileOne, BuildingType tileTwo)
+    {
+
+    }
+
+    @Override
+    public void placeTile(City placedOn, BuildingType tilePlaced, int x, int y)
+    {
+
+    }
+
+    @Override
+    public void finishedPlacingTiles()
+    {
+
+    }
+
+    private void finishDraft(PostDraftTransferObject draftResult)
+    {
+        Log.v(this.getClass().toString(), "Finishing draft.");
+
+        ObjectMapper m = new ObjectMapper();
+        try
         {
-            return true;
+            _socket.emit(Routes.ToServer.DRAFT_COMPLETE, m.writeValueAsString(draftResult));
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
         }
-        return false;
     }
 
     private void emptyBoardUpdates()
@@ -226,36 +263,6 @@ public class GameService extends Service
         }
     }
 
-    public void addBoardUpdateListener(IBoardUpdateListener updateReciever)
-    {
-        _updateReciever = updateReciever;
-        emptyBoardUpdates();
-    }
-
-    public void placeTile(User player, BuildingType tile, SharedCity city, int x, int y)
-    {
-        PlaceTileTransferObject ptto = new PlaceTileTransferObject();
-        ptto.currentUser = player;
-        ptto.targetCity = city;
-        ptto.tileToPlace = tile;
-        ptto.x = x;
-        ptto.y = y;
-        ObjectMapper mapper = new ObjectMapper();
-        try
-        {
-            String output = mapper.writeValueAsString(ptto);
-            _socket.emit(Routes.ToServer.PLAY_TILE, output);
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void placeComplete()
-    {
-        _socket.emit(Routes.ToServer.PLACE_COMPLETE);
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
@@ -264,7 +271,7 @@ public class GameService extends Service
 
     public class GameServiceBinder extends Binder
     {
-        public GameService getService()
+        public IGameService getService()
         {
             return GameService.this;
         }

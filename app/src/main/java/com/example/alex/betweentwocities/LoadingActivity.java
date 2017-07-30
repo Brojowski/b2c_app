@@ -12,10 +12,6 @@ public class LoadingActivity extends PortraitActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // Start service because super.onCreate() will bind to it.
-        Intent startGameService = new Intent(this, GameService.class);
-        startService(startGameService);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
     }
@@ -50,9 +46,13 @@ public class LoadingActivity extends PortraitActivity
                     });
                 }
             };
-            if (_gameService.isConnected(onConnection))
+            if (_gameService.isConnected())
             {
                 onConnection();
+            }
+            else
+            {
+                _gameService.registerOnConnection(onConnection);
             }
         }
     }
