@@ -7,9 +7,13 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.alex.betweentwocities.BuildingResourceConverter;
 import com.example.b2c_core.BuildingType;
 import com.example.b2c_core.City;
+import com.example.b2c_core.DraftTransferObject;
 import com.example.b2c_core.User;
+
+import java.util.Random;
 
 /**
  * Created by alex on 7/30/17.
@@ -45,6 +49,19 @@ public class DummyGameService extends Service implements IGameService
             case Log.INFO:
                 Log.i(TAG, msg);
         }
+    }
+
+    private DraftTransferObject mockDraftTransferObject(int numberTiles)
+    {
+        Random rnd = new Random();
+        DraftTransferObject dto = new DraftTransferObject();
+        dto.currentUser = _currentUser;
+        dto.availableTiles = new BuildingType[numberTiles];
+        for (int i = 0; i < numberTiles; i++)
+        {
+            dto.availableTiles[i] = BuildingResourceConverter.buildingFromInt(rnd.nextInt(9)+1);
+        }
+        return dto;
     }
 
     @Nullable
@@ -93,7 +110,8 @@ public class DummyGameService extends Service implements IGameService
         log("joinGame");
         if (_eventListener != null)
         {
-            _eventListener.onStartDraft();
+            DraftTransferObject dto = new DraftTransferObject();
+            _eventListener.onStartDraft(mockDraftTransferObject(3));
         }
     }
 

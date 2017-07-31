@@ -9,9 +9,8 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.alex.betweentwocities.Services.DummyGameService;
-import com.example.alex.betweentwocities.Services.IGameEvents;
-import com.example.alex.betweentwocities.Services.IGameService;
+import com.example.alex.betweentwocities.Services.*;
+import com.example.b2c_core.*;
 
 /**
  * Created by alex on 3/28/17.
@@ -40,21 +39,22 @@ public abstract class GameBaseActivity extends AppCompatActivity implements IGam
     }
 
     @Override
-    public void onStartDraft()
+    public void onStartDraft(DraftTransferObject dto)
     {
         Log.i(TAG,"onStartDraft");
-        Intent startDraftIntent = new Intent(this, HomeActivity.class);
+        Intent startDraftIntent = new Intent(this, DraftingActivity.class);
+        startDraftIntent.putExtra(DraftTransferObject.class.toString(), dto);
         startActivity(startDraftIntent);
     }
 
     @Override
-    public void onStartPlace()
+    public void onStartPlace(PlaceTransferObject pto)
     {
         Log.i(TAG,"onStartPlace");
     }
 
     @Override
-    public void onBoardUpdate()
+    public void onBoardUpdate(PlaceTileTransferObject ptto)
     {
         Log.i(TAG,"onBoardUpdate");
     }

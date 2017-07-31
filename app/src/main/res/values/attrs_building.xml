@@ -3,7 +3,7 @@
         <attr name="CanReplace" format="boolean" />
         <attr name="CanMove" format="boolean" />
         <attr name="NumberOfTiles" format="integer" />
-        <attr name="BuildingType" format="enum">
+        <attr name="BuildingImage" format="enum">
             <enum name="blank" value="0"/>
             <enum name="factory" value="1"/>
             <enum name="house" value="2" />
