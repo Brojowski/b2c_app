@@ -1,12 +1,11 @@
 package com.example.alex.betweentwocities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-public class LoadingActivity extends PortraitActivity
+public class LoadingActivity extends GameBaseActivity
 {
 
     @Override

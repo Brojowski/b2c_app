@@ -1,4 +1,4 @@
-package com.example.alex.betweentwocities;
+package com.example.alex.betweentwocities.Services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -19,6 +19,7 @@ public class DummyGameService extends Service implements IGameService
 {
     private final DummyBinder _binder = new DummyBinder();
     private static final String TAG = DummyGameService.class.getSimpleName();
+    private IGameEvents _eventListener;
     private User _currentUser;
 
     public DummyGameService()
@@ -67,6 +68,12 @@ public class DummyGameService extends Service implements IGameService
     }
 
     @Override
+    public void registerEventListener(IGameEvents listener)
+    {
+        _eventListener = listener;
+    }
+
+    @Override
     public User getCurrentUser()
     {
         log("getCurrentUser");
@@ -84,6 +91,10 @@ public class DummyGameService extends Service implements IGameService
     public void joinGame()
     {
         log("joinGame");
+        if (_eventListener != null)
+        {
+            _eventListener.onStartDraft();
+        }
     }
 
     @Override

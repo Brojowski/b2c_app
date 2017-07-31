@@ -7,13 +7,19 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import com.example.alex.betweentwocities.Services.DummyGameService;
+import com.example.alex.betweentwocities.Services.IGameEvents;
+import com.example.alex.betweentwocities.Services.IGameService;
 
 /**
  * Created by alex on 3/28/17.
  */
 
-public abstract class PortraitActivity extends AppCompatActivity
+public abstract class GameBaseActivity extends AppCompatActivity implements IGameEvents
 {
+    private static final String TAG = GameBaseActivity.class.getSimpleName();
     protected IGameService _gameService;
     protected boolean _bound;
 
@@ -33,6 +39,26 @@ public abstract class PortraitActivity extends AppCompatActivity
         unbindService(_gameServiceConnection);
     }
 
+    @Override
+    public void onStartDraft()
+    {
+        Log.i(TAG,"onStartDraft");
+        Intent startDraftIntent = new Intent(this, HomeActivity.class);
+        startActivity(startDraftIntent);
+    }
+
+    @Override
+    public void onStartPlace()
+    {
+        Log.i(TAG,"onStartPlace");
+    }
+
+    @Override
+    public void onBoardUpdate()
+    {
+        Log.i(TAG,"onBoardUpdate");
+    }
+
     protected void onGameServiceConnection(){}
 
     private ServiceConnection _gameServiceConnection = new ServiceConnection()
@@ -42,6 +68,7 @@ public abstract class PortraitActivity extends AppCompatActivity
         {
             DummyGameService.DummyBinder binder = (DummyGameService.DummyBinder) service;
             _gameService = binder.getService();
+            _gameService.registerEventListener(GameBaseActivity.this);
             _bound = true;
             onGameServiceConnection();
         }

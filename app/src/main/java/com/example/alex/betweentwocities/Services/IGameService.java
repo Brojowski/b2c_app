@@ -1,4 +1,4 @@
-package com.example.alex.betweentwocities;
+package com.example.alex.betweentwocities.Services;
 
 import com.example.b2c_core.*;
 
@@ -6,6 +6,7 @@ public interface IGameService
 {
     boolean isConnected();
     void registerOnConnection(Runnable callback);
+    void registerEventListener(IGameEvents listener);
     User getCurrentUser();
 
     void login(User u);

@@ -1,4 +1,4 @@
-package com.example.alex.betweentwocities;
+package com.example.alex.betweentwocities.Services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.util.Log;
 import com.example.b2c_core.BuildingType;
 import com.example.b2c_core.City;
 import com.example.b2c_core.DraftTransferObject;
-import com.example.b2c_core.PlaceTileTransferObject;
 import com.example.b2c_core.PlaceTransferObject;
 import com.example.b2c_core.PostDraftTransferObject;
 import com.example.b2c_core.Routes;
@@ -41,7 +40,6 @@ public class GameService extends Service implements IGameService
     private static final String url = "http://10.1.1.191:8000";
     private Socket _socket;
     private Runnable _connectionCallback;
-    private IBoardUpdateListener _updateReciever;
     private Map<User, SharedCity> _cityUpdates = new HashMap<>();
 
     /**
@@ -172,10 +170,10 @@ public class GameService extends Service implements IGameService
                     SharedCity city = mapper.readValue(args[0].toString(), SharedCity.class);
                     _cityUpdates.put(city.getLeftPlayer(), city);
 
-                    if (_updateReciever != null)
+                    /*if (_updateReciever != null)
                     {
                         emptyBoardUpdates();
-                    }
+                    }*/
 
                 } catch (IOException e)
                 {
@@ -195,6 +193,12 @@ public class GameService extends Service implements IGameService
     public void registerOnConnection(Runnable callback)
     {
         _connectionCallback = callback;
+    }
+
+    @Override
+    public void registerEventListener(IGameEvents listener)
+    {
+
     }
 
     @Override
@@ -258,7 +262,7 @@ public class GameService extends Service implements IGameService
         Iterator<Map.Entry<User, SharedCity>> updates = _cityUpdates.entrySet().iterator();
         while (updates.hasNext())
         {
-            _updateReciever.onBoardUpdate(updates.next().getValue());
+            //_updateReciever.onBoardUpdate(updates.next().getValue());
             updates.remove();
         }
     }
